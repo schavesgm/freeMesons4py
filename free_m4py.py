@@ -402,7 +402,8 @@ if __name__ == '__main__':
                 dataAuxImag += [x[i] for x in result_sumImag ][j]
             dataCorrReal.append( dataAuxReal * normalization )
             dataCorrImag.append( dataAuxImag * normalization )
-            data_aux = 0
+            dataAuxReal = 0
+            dataAuxImag = 0
 
         print( '---------------------------' )
         print( 'REAL PART OF THE DATA' )
