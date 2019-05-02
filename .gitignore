@@ -1,0 +1,3 @@
+# Ignore these folders or files
+RESULTS_DATA/
+modules/__pycache__/
