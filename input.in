@@ -1,90 +1,90 @@
-## INPUT DATA TO RUN THE MESON CORRELATOR
+# Input data to run the meson correlation function
 --> Sergio Chaves Garcia-Mascaraque
---> Abril de 2018 - Septiembre de 2018
+--> Abril de 2018 - Mayo de 2019
 
-### ------------------------------------------------------
-#    IN ORDER TO RUN THE CODE YOU NEED TO RUN
+#    In order to run the code, you should:
 #
 #    $ mpiexec -n numCores python free_m4py.py nameInputFile
-### ------------------------------------------------------
 
-## NAME OF THE OUTPUT FILE TO SAVE THE DATA
+# Name of the output file -- Inside results
 output_name Andrea_Test_2
 
-''' LATTICE PARAMETERS '''
+""" Lattice parameters """
 
-## SPATIAL LENGTH OF THE LATTICE
+# Spatial length of the lattice
 spatial_length 4
 
-## TEMPORAL EXTENT OF THE LATTICE
+# Temporal extent of the lattice - Maximum time in case of Tinf
 temporal_extent 12
 
-# BOUNDARY CONDITIONS USED IN THE TIME DIRECTION:
-## 0 FOR ANTI-PERIODIC, 1 FOR T INFINITE, 2 FOR DIRICHLET/OPEN/SF
-boundary_elec 2
-
-''' DEFINITIONS OF THE MESON CALCULATED AND IMPROVEMENTS '''
-
-## MESON TYPE CALCULATIONS. IT ALLOW "2FLAVORS" FOR CHARGED PIONS AND "BLOB"
-## TO CALCULATE DISCONNECTED DIAGRAMS
-meson_type 2FLAVORS
-
-## DO YOU WANT TO USE O(a) IMPROVEMENT SCHEME ON THE MASS ? 0 = False, 1 = True
-improv 0
-
-## FLAVOR STRUCTURE FOR THE TWISTED MASS TERMS. AT THIS POINT IT ONLY ACCEPTS DIAGONAL
-## TWISTED MASS TERMS. THE VALUES 1, -1 ARE TWISTED MASS TERMS
-flavor_tm_1 flavor_tm_2 1 -1
-
-## STANDARD MASSES FOR THE QUARKS THAT COMPOSE THE MESON
-mass_1 mass_2 0 0
-
-## MODULE OF THE TWISTED MASS VALUES FOR EACH QUARK THAT COMPOSE THE MESON.
-twisted_mass_1 twisted_mass_2 0.04 0.04
-
-## TIME POSITION OF THE SOURCE. IF YOU ARE CALCULATING BLOBS, IT IS COMPLETELY IRRELEVANT
-t_source 0
-
-## R-PARAMETERS OF THE WILSON OPERATOR FOR BOTH QUARKS
-r_1 r_2 1 1
-
-## CALCULATE A BUNCH OF TIMES, FROM time_init TO time_finit - 1
-## THE CASE time_init = time_finit = 0 CALCULATES ALL TIMES
+# Calculate only a bunch of times of the correlation function.
+# It calculates from time_init to time_finit - 1
+# If set to time_init = time_finit = 0 -- All times are calculated
 time_init time_finit 0 0
 
-## OPERATORS THAT DEFINE THE MESON CHANNEL USED. G0 == G4.
-## THE FIRST ONE IS THE SINK, THE SECOND ONE IS THE SOURCE
-## You can use I G1 G2 G3 G4 G5 G4G1 G4G2 G4G3 G4G5 G1G2 G1G3 G1G5 G2G3 G2G5 G3G5
+# Boundary conditions in the time direction
+# 0 for AntiPeriodic, 1 for Tinfinite, 2 for Dirichlet/Open/SF
+boundary_elec 2
+
+""" Parameters of the simulation """
+# Meson type calculations, it allows "2FLAVORS" for charged mesons
+# and "BLOB" to calculate disconnected diagrams
+meson_type 2FLAVORS
+
+# Do you want to use O(a) mass-improvement scheme ? 0 for No, 1 for Yes
+improv 0
+
+# Flavor structure of the twisted mass terms. If set to 1, -1, they are up and down
+flavor_tm_1 flavor_tm_2 1 -1
+
+# Standard masses of the quarks - In units of m * L
+mass_1 mass_2 0 0
+
+# Module of the twisted mass of the quarks - In units of \mu * L
+twisted_mass_1 twisted_mass_2 0.04 0.04
+
+# Time position of the source - Irrelevant when calculating blobs
+t_source 0
+
+# Wilson r-Parameters for both quarks
+r_1 r_2 1 1
+
+# Operator that define the mesons -  G0 == G4.
+# First one is the sink, second one is the source
+# Available { I G1 G2 G3 G4 G5 G4G1 G4G2 G4G3 G4G5 G1G2 G1G3 G1G5 G2G3 G2G5 G3G5 }
 operator_1 operator_2 G5 G5
 
-## FINAL MOMENTA FOR THE MESON, USUALLY SET TO [0,0,0]. ADD MOMENTA USING THETA BC.
+# Final momenta for the meson - Set it to [0,0,0]. Add momenta with theta BC.
 final_momenta 0 0 0
 
-## THETA BOUNDARY CONDITIONS FOR BOTH QUARKS THAT FORM THE MESON
+# Theta BC to add momenta to the quarks
 theta_1 0 0 0
 theta_2 0 0 0
 
-''' DIVISIONS OF THE LATTCE -- PARALLEL AND MEMORY '''
-## FOR EXAMPLE, WE WANT TO SIMULATE L = 8  AND T = 64  AND WE HAVE 8 CPUS
-## AVAILABLE
+""" Divisions of the lattice -- Parallelization and memory """
 
-## DIVISIONS OF EACH DIRECTION CALCULATED. THEY MUST HOLD N_i <= L_i and prod( N_i ) = N_CORES
-## THE LAST TWO ONES ARE ONLY USED IN THE ANTI-PERIODIC CASE, PLACE THEM AS 1 WHEN NOT USING THEM
+# The divisions of the lattice must hold N_i * N_mini_i %  L_i = 0.
+# They must be multiples of the length in that direction
+
+# Divisions at each direction. They must hold N_i <= L_i and prod( N_i) = N_cores
+# We divide the lattice into blocks, each block is calculated in each processor
 N_X 1
 N_Y 1
 N_Z 2
 
-## ONLY USED IN ANTIPERIODIC, PLACE 1 IF NOT
+# Only used in antiperiodic - Set it to one in the other cases
 N_T1 1
 N_T2 1
 
-## SUBDIVISION OF EACH DIVISION, USED TO AVOID MEMORY PROBLEMS IN LARGE CALCULATIONS. THE NUMBER
-## PLACED MUST HOLD N_i * N_mini_i <= L_i. PLACE 1 FOR THE TIME COMPONENTS WHERE NOT USING
-## ANTIPERIODIC BOUNDARY CONDITIONS.
+# Subdivisions at each division. We divide the blocks into more blocks at EACH
+# processor to avoid memory problems. Note that in real life we do not have
+# infinitely many resources.
+
+# The values must hold, N_i * N_mini_i <= L_i.
 N_mini_X 1
 N_mini_Y 1
 N_mini_Z 1
 
-## ONLY USED IN ANTIPERIODIC, PLACE 1 IF NOT
+# Only used in antiperiodic - Set it to one in the other cases
 N_mini_T1 1
 N_mini_T2 1

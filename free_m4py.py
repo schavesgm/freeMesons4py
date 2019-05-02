@@ -357,7 +357,7 @@ if __name__ == '__main__':
         print( 'THE SIMULATION HAS FINISHED' )
 
         path_here = os.path.dirname( os.path.relpath(__file__) )
-        subdir = 'RESULTS_DATA'
+        subdir = 'results'
         filepath = os.path.join( path_here, subdir, output_name )
 
         # Create the subdirectory if does not exist
