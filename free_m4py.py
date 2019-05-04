@@ -190,7 +190,7 @@ if __name__ == '__main__':
                             mod.input_assigner( 'N_mini_T2', fileName ) )
 
             N_mini = [ N_mini_X, N_mini_Y, N_mini_Z, N_mini_T1, N_mini_T2 ]
-            print( 'Total volume is', np.product( L ) )
+            #print( 'Total volume is', np.product( L ) )
 
             # Generate the coordinates that label each block
             coords_mpi = []
@@ -260,6 +260,9 @@ if __name__ == '__main__':
         N_mini = None
         N = None
 
+    # Barrier to the processors to keep things tidy and clean
+    comm.Barrier()
+
     # Broadcast the data to all ranks
 
     # Simulation data
@@ -284,6 +287,9 @@ if __name__ == '__main__':
 
     # Only thing needed to be scattered
     coords_scatter = comm.scatter( coords_mpi, root = 0 )
+
+    # Barrier to the processors to keep things tidy and clean
+    comm.Barrier()
 
     # Perform the integration at each rank
     result_sumReal, result_sumImag = mod.create_trace_and_integrate(

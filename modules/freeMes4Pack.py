@@ -72,9 +72,9 @@ def create_trace_and_integrate(
             lattice_points = create_own_fin_lattice(
                     L_array, N, mini_N, coords, mini_coords[i] )
 
-            print( 'rank number ', rank, ' in his ', i + 1, ' subdivision has ',
-                    len(lattice_points) * ( time_calc[1] - time_calc[0] ),
-                    ' points.' )
+            #print( 'rank number ', rank, ' in his ', i + 1, ' subdivision has ',
+            #        len(lattice_points) * ( time_calc[1] - time_calc[0] ),
+            #        ' points.' )
 
             trace_array = []
 
@@ -271,14 +271,14 @@ def create_trace_and_integrate(
 
                             suma = 0
 
-    print( 'The rank number ', rank , ' has created and integrated',
-           ' his lattice in ', timeit.default_timer() - start, ' seconds.' )
+    # print( 'The rank number ', rank , ' has created and integrated',
+    #        ' his lattice in ', timeit.default_timer() - start, ' seconds.' )
 
     # Sum all the contributions to the integral
     timeCorrReal, timeCorrImag = [], []
     for t in range( 0, len( time_array) ):
-        timeCorrReal.append( np.abs( np.sum( time_results_real[t,:] ) ) )
-        timeCorrImag.append( np.abs( np.sum( time_results_imag[t,:] ) ) )
+        timeCorrReal.append( np.sum( time_results_real[t,:].real ) )
+        timeCorrImag.append( np.sum( time_results_imag[t,:].imag ) )
 
     return timeCorrReal, timeCorrImag
 
