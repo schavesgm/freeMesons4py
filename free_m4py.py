@@ -341,7 +341,7 @@ if __name__ == '__main__':
                             }
 
         for i in range( 0, int( time_calc[1] - time_calc[0] ) ):
-            time.append( i )
+            time.append( time_calc[0] + i )
 
             for j in range( 0, size ): # Sobre todos los procesadores
                 dataAuxReal += [x[i] for x in result_sumReal ][j]
