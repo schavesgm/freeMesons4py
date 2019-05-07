@@ -168,6 +168,7 @@ if __name__ == '__main__':
                             mod.input_assigner( 'N_T2', fileName ) )
 
             N = [ N_X, N_Y, N_Z, N_T1, N_T2 ]
+
             if ( N_X * N_Y * N_Z * N_T1 * N_T2 ) != size:
                 print( 'Number of divisions of the lattice',
                         ' does not match the number of cores used' )
@@ -190,7 +191,7 @@ if __name__ == '__main__':
                             mod.input_assigner( 'N_mini_T2', fileName ) )
 
             N_mini = [ N_mini_X, N_mini_Y, N_mini_Z, N_mini_T1, N_mini_T2 ]
-            #print( 'Total volume is', np.product( L ) )
+            print( 'Total volume is', np.product( L ) )
 
             # Generate the coordinates that label each block
             coords_mpi = []
@@ -305,7 +306,7 @@ if __name__ == '__main__':
     result_sumImag = comm.gather( result_sumImag, root = 0 )
 
 
-    # Obtain the results and flush it into the output file
+    # Obtain the results and flush them into the output file
     if rank == 0:
 
         # Normalization factors to match openQCD. Adimensional quantities
