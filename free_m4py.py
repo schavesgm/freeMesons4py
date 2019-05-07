@@ -316,13 +316,13 @@ if __name__ == '__main__':
             if boundary_elec == 0:
                 normalization = 3 / ( temporal_extent ** 2 )
             else:
-                normalization = 3 / ( spatial_length ** 3 )
+                normalization = 3
 
         elif meson_type == 'BLOB':
             if boundary_elec == 0:
                 normalization = 3 / temporal_extent
             else:
-                normalization = 3  #/ ( np.sqrt( spatial_length ** 3 ) )
+                normalization = 3
 
         stop = timeit.default_timer()
         # Access the data, it's created as tuples inside a list
