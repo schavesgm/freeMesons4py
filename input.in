@@ -12,21 +12,22 @@ output_name Andrea_Test_2
 """ Lattice parameters """
 
 # Spatial length of the lattice
-spatial_length 4
+spatial_length 8
 
 # Temporal extent of the lattice - Maximum time in case of Tinf
-temporal_extent 12
+temporal_extent 80
 
 # Calculate only a bunch of times of the correlation function.
 # It calculates from time_init to time_finit - 1
 # If set to time_init = time_finit = 0 -- All times are calculated
-time_init time_finit 0 0
+time_init time_finit 72 74
 
 # Boundary conditions in the time direction
 # 0 for AntiPeriodic, 1 for Tinfinite, 2 for Dirichlet/Open/SF
 boundary_elec 2
 
 """ Parameters of the simulation """
+
 # Meson type calculations, it allows "2FLAVORS" for charged mesons
 # and "BLOB" to calculate disconnected diagrams
 meson_type 2FLAVORS
@@ -41,10 +42,10 @@ flavor_tm_1 flavor_tm_2 1 -1
 mass_1 mass_2 0 0
 
 # Module of the twisted mass of the quarks - In units of \mu * L
-twisted_mass_1 twisted_mass_2 0.04 0.04
+twisted_mass_1 twisted_mass_2 0.4 0.4
 
 # Time position of the source - Irrelevant when calculating blobs
-t_source 0
+t_source 40
 
 # Wilson r-Parameters for both quarks
 r_1 r_2 1 1
@@ -69,7 +70,7 @@ theta_2 0 0 0
 # Divisions at each direction. They must hold N_i <= L_i and prod( N_i) = N_cores
 # We divide the lattice into blocks, each block is calculated in each processor
 N_X 1
-N_Y 1
+N_Y 2
 N_Z 2
 
 # Only used in antiperiodic - Set it to one in the other cases
