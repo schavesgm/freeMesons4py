@@ -24,9 +24,18 @@ def wilson_tm_prop_integrated(
                                r_param
                              ):
     '''
-        Returns the quark propagator using twisted mass quarks integrated over time
-        up_down must be 1 if the propagator corresponds to the UP quark and -1 if it
-        corresponds to the DOWN proyection in flavor space.
+        @arg (float): Standard mass of the quark
+        @arg (float): Twisted mass of the quark
+        @arg (list) : Final momenta of the correlation function. Set it to zero, if
+                      you wished to add momenta use theta BC in the correlation
+                      function.
+        @arg (list) : Initial and final time in which the propagator is calculated.
+        @arg (int)  : SU(2) projection. +1 for UP quarks, -1 for DOWN quarks.
+        @arg (float): Wilson r-parameter.
+
+        return      : Wilson-Twisted-Mass quark propagator in the free theory in the
+                      limit in which the temporal boundary condition tends to infinity.
+                      The spatial boundary conditions are set to be periodic.
     '''
 
     sum_cos, sum_sin_sq, sum_sin = 0, 0, 0
@@ -66,12 +75,18 @@ def wilson_tm_propagator(
                           r = 1
                         ):
     '''
-        Returns the quark propagator given the mass of the quark,
-        the twisted mass and some spatial momenta k and some temporal momenta k_4.
-        The operator corresponds to a Wilson-Twisted-Mass free theory.
-        The value of r can be changed, r = 1 as default.
-        up_down must be +1 if the quark correspond to the UP proyection and
-        -1 if corresponds to the DOWN proyection of the SU(2) doublet.
+        @arg (float): Standard mass of the quark
+        @arg (float): Twisted mass of the quark
+        @arg (list) : Final momenta of the correlation function. Set it to zero, if
+                      you wished to add momenta use theta BC in the correlation
+                      function.
+        @arg (list) : Initial and final time in which the propagator is calculated.
+        @arg (int)  : SU(2) projection. +1 for UP quarks, -1 for DOWN quarks.
+        @arg (float): Wilson r-parameter.
+
+        return      : Wilson-Twisted-Mass quark propagator in the free theory when
+                      the boundary conditions in the time direction are antiperiodic.
+                      The spatial boundary conditions are set to be periodic.
     '''
 
     sum_cos =  ( 1 - np.cos( temporal_momenta ) )
@@ -95,12 +110,20 @@ def wilson_tm_propagator(
     return num_matrix / denominator
 
 def G_func( mass, twisted_mass, spatial_momenta, time, T ):
-    """
-        Returns the G_function used in the calculation of the
-        free propagator in the open/Dirichlet/SF boundary condition case.
+    '''
+        @arg (float): Standard mass of the quark
+        @arg (float): Twisted mass of the quark
+        @arg (list) : Final momenta of the correlation function. Set it to zero, if
+                      you wished to add momenta use theta BC in the correlation
+                      function.
+        @arg (list) : Initial and final time in which the propagator is calculated.
+        @arg (int)  : Temporal extent of the lattice.
 
-        It is used by the SF_wilson_TM function.
-    """
+        return      : G_function used to calculate the quark propagator in the
+                      free theory when the boundary conditions in the time direction
+                      are open/Dirichlet/SF. The spatial boundary conditions are
+                      set to be periodic.
+    '''
 
     sum_sin_sq, sum_sin_half = 0, 0
 
@@ -153,15 +176,20 @@ def G_func( mass, twisted_mass, spatial_momenta, time, T ):
     return  ( G_func_M * P_minus + G_func_P * P_plus )
 
 def SF_wilson_TM( mass, twisted_mass, spatial_momenta , time, T, up_down ):
-    """
-        Return the quark propagator using SF twisted mass regularization in
-        finite time extennt.
+    '''
+        @arg (float): Standard mass of the quark
+        @arg (float): Twisted mass of the quark
+        @arg (list) : Final momenta of the correlation function. Set it to zero, if
+                      you wished to add momenta use theta BC in the correlation
+                      function.
+        @arg (list) : Initial and final time in which the propagator is calculated.
+        @arg (int)  : Temporal extent of the lattice.
+        @arg (int)  : SU(2) projection. +1 for UP quarks, -1 for DOWN quarks.
 
-        up_down = 1 represents the UP projection and up_down = -1 represents
-        the DOWN projection of the SU(2) doublet.
-
-        The function used G_func to calculate the propagator.
-    """
+        return      : Wilson-Twisted-Mass quark propagator in the free theory when
+                      the boundary conditions in the time direction are open/Dirichlet/
+                      SF. The spatial boundary conditions are set to be periodic.
+    '''
 
     ## To match openQCD data T -> N_T - a
     T = T - 1

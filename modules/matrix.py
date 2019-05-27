@@ -13,11 +13,16 @@ __all__ = [ 'operator_dictionary',
 
 def operator_dictionary( operator_signal, number ):
     '''
-        Dictionary of operators:
+        @arg (string): String containing the operator to generate inside the
+                       Clifford's algebra. It accepts all 16 elements. The
+                       returned values are in concordance to the \gamma_\mu
+                       definition inside Gattringer's book.
+        @arg (int)   : Integer used to obtain the first or the second operator.
+                       Note that they always come in pairs as we are calculating
+                       correlation functions.
 
-        Converts an string with to a given matrix operator.
-        Called in the main file to generate the matrix needed.
-
+        return       : 4-dimensional complex Numpy matrix containing the operator
+                       inside the Clifford's algebra.
     '''
 
     ## Needed to be consistent with input_assigner output
@@ -58,7 +63,11 @@ def operator_dictionary( operator_signal, number ):
 
 def gamma_matrix( mu ):
     '''
-    Returns the gamma euclidean matrix given the mu index
+        @arg (int): Integer from 0 to 5 that selects which gamma matrix
+                    we want to return.
+
+        return    : 4-dimensional Numpy matrix containing the definition
+                    of the gamma matrix with index mu.
     '''
 
     # Define the variables used -- avoid precision problems
@@ -105,10 +114,11 @@ def gamma_matrix( mu ):
 
 def identity_matrix( dim = 4 ):
     '''
-        Returns the identity delta kronnecker given the dimension.
-        The default value is the identity in 4 dimensions.
+        Optional:
+        arg (int): Dimensionality of your Dirac space.
 
-        This module is the same as np.eye( 4 )
+        return   : Numpy complex matrix containing the Kronnecker's delta
+                   in dim dimensions.
     '''
 
     delta = np.zeros( [dim,dim] )

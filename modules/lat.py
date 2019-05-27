@@ -16,10 +16,10 @@ __all__ = [ 'create_own_tinf_lattice',
     ---> Sergio Chaves
     ---> Javier Ugarrio
 
-    ##############################################################################
     Function that creates a lattice in 5 dimensions using periodic or antiperiodic
     boundary conditions. It uses a parallelepiped of LX*LY*LZ*T_1*T_2 divided each
     side in N_X*N_Y*N_Z*N_T1*N_T2
+
     It asigns the partitions of each dimension according to the number of blocks you
     want to create, which could be used to divide the lattice in N_c cores in parallel.
 
@@ -27,16 +27,21 @@ __all__ = [ 'create_own_tinf_lattice',
     the number of cores must be also a number of cores so that
     N_c = 2^n <  L_X * L_Y * ... * T_2
 
-    ##############################################################################
-    '''
+'''
 
 def create_own_tinf_lattice( L, N, mini_N, coords, mini_coords ):
     '''
-        Create the lattice for a inifite time direction calculation.
-        In this case, we do not have temporal component as it has been
-        previously integrated out.
+        @arg (int) : spatial extent of the lattice.
+        @arg (list): list containing the number of division in each dimension.
+        @arg (list): list containing the number of division of each block (dictated
+                     by n). used to avoid memory problems in large lattices.
+        @arg (list): coordinate of each rank. for each rank, it corresponds one
+                     block dictated by n. each block can have subdivisions.
+        @arg (list): coordintaes to subdivide each block to avoid memory problems
+                     when the number of resources are limited and the lattice is large.
 
-        Must be consistent that product of N[i] = number of cores used
+        returns    : list containing a 3-dimensional lattice in the first brillouin
+                     zone using periodic boundary conditions.
     '''
 
     # Get the lenths of the lattice in the spatial direction
@@ -94,10 +99,19 @@ def create_own_tinf_lattice( L, N, mini_N, coords, mini_coords ):
 
 def create_own_fin_lattice( L, N, mini_N, coords, mini_coords ):
     '''
-        Create the lattice for a finite time direction calculation.
-        In this case, we do have a 5-dimensional lattice to integrate.
+        @arg (int) : spatial extent of the lattice and temporal extents. The
+                     distribution is [ LX, LY, LZ, T1, T2 ]. T1 = T2
+        @arg (list): list containing the number of division in each dimension.
+        @arg (list): list containing the number of division of each block (dictated
+                     by n). used to avoid memory problems in large lattices.
+        @arg (list): coordinate of each rank. for each rank, it corresponds one
+                     block dictated by n. each block can have subdivisions.
+        @arg (list): coordintaes to subdivide each block to avoid memory problems
+                     when the number of resources are limited and the lattice is large.
 
-        Must be consistent that product of N[i] = number of cores used
+        returns    : list containing a 5-dimensional lattice in the first brillouin
+                     zone using periodic boundary conditions in the spatial
+                     directions and anti-periodic in the temporal.
     '''
 
     # Get the size of the lattice
@@ -185,7 +199,6 @@ def create_own_fin_lattice( L, N, mini_N, coords, mini_coords ):
                         data[alfa,3] = ( (2 * value_T1 + 1) * np.pi ) / T_1
                         data[alfa,4] = ( (2 * value_T2 + 1) * np.pi ) / T_2
                         alfa += 1
-
 
     return data
 

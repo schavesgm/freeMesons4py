@@ -26,11 +26,41 @@ def create_trace_and_integrate(
                                 type_2, time_calc,
                                 r_1, r_2
                               ):
+    '''
+        @arg (string): Meson type. In order to calculate 'BLOBS' or '2FLAVORS'
+        @arg (int)   : Integer containing the definition of the boundary conditions in
+                       the time direction. The number 0 corresponds to antiperiodic,
+                       1 to T \to \inf, 2 to open/Dirichlet/SF. The spatial is always
+                       periodic.
+        @arg (list)  : List containing the attributes of the simulation, that is,
+                       mq1/L, mq2/L, \mu1/L, \mu2/L, spatial_momenta.
+        @arg (list)  : Division of the lattice in each direction.
+        @arg (list)  : Coordinate that assign to each rank, one block.
+        @arg (list)  : Operators that define the quarks. They belong to the Cliffor's
+                       algebra.
+        @arg (int)   : Position of the source in the correlation function.
+        @arg (list)  : Definition of the size of the lattice in the spatial direction.
+        @arg (list)  : Definition of the size of the lattice in the temporal direction.
+        @arg (int)   : Rank corresponding to each process.
+        @arg (list)  : Subdivision on each block. To avoid memory problems. They will
+                       be calculated sequentially on each process.
+        @arg (list)  : Theta boundary conditions for the first quark in the correlation
+                       function.
+        @arg (list)  : Theta boundary conditions for the second quark in the
+                       correlation function.
+        @arg (int)   : SU(2) projection of the first quark in the correlation
+                       function. Use +1 to use UP, -1 to DOWN.
+        @arg (int)   : SU(2) projection of the second quark in the correlation
+                       function. Use +1 to use UP, -1 to DOWN.
+        @arg (list)  : List containing times to be calculated in case we just wanted
+                       to extract from time_calc[0] to time_calc[1] - 1.
+        @arg (int)   : Wilson r-parameter for the first quark.
+        @arg (int)   : Wilson r-parameter for the second quark.
 
-    """
-        The size of N and the size of mini_N must be consistent with the
-        boundary conditions elected.
-    """
+        return       : Array of complex numbers containing the contribution to the
+                       correlation function from one block of the lattice. Note that
+                       they must be summed in the end to obtain a meaningful number.
+    '''
 
     # Load the attributes
     mass_1, mass_2,  = attributes[0], attributes[1]
@@ -271,12 +301,12 @@ def create_trace_and_integrate(
 
                             suma = 0
 
-    # print( 'The rank number ', rank , ' has created and integrated',
-    #        ' his lattice in ', timeit.default_timer() - start, ' seconds.' )
+    print( 'The rank number ', rank , ' has created and integrated',
+           ' his lattice in ', timeit.default_timer() - start, ' seconds.' )
 
     # Sum all the contributions to the integral
     timeCorrReal, timeCorrImag = [], []
-    for t in range( 0, len( time_array) ):
+    for t in range( 0, len( time_array ) ):
         timeCorrReal.append( np.sum( time_results_real[t,:].real ) )
         timeCorrImag.append( np.sum( time_results_imag[t,:].imag ) )
 
