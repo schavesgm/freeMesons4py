@@ -14,7 +14,7 @@ _mpi4py_. In order to be able to run it you need:
 
 * Python 3.6 or 2.7 (It should work in both )
 * **Numpy** package - pip install numpy
-* An **MPI** implementation, such as **openMPI**
+* A **MPI** implementation, such as **openMPI**
 * The module **mpi4py* - pip install mpi4py
 
 Inside the file _input.in_ you can manipulate the different
